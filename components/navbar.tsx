@@ -8,6 +8,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ModeToggle } from "./ui/mode-toggle";
 import { MobileSidebar } from "./mobile-sidebar";
+import { useProModal } from "@/hooks/use-pro-modal";
 
 
 const font = Poppins({
@@ -15,7 +16,13 @@ const font = Poppins({
     subsets: ["latin"]
 })
 
-export const Navbar = () => {
+interface NavbarProps {
+    isPro: boolean;
+}
+
+export const Navbar = ({ isPro }: NavbarProps) => {
+    const proModal = useProModal()
+
     return (
         <div className="fixed w-full z-50 flex justify-between items-center py-2 px-4 border-b border-primary/10 bg-secondary h-16">
             <div className="flex items">
@@ -26,12 +33,15 @@ export const Navbar = () => {
                 </Link>
             </div>
             <div className="flex items-center gap-x-3">
-                <Button variant="premium">
-                    Upgrade
-                    <Sparkles className="h-4 w-4 fill-white text-white" />
-                </Button>
+                {!isPro && (
+                    <Button onClick={proModal.onOpen} variant="premium">
+                        Upgrade
+                        <Sparkles className="h-4 w-4 fill-white text-white" />
+                    </Button>
+                )}
+
                 <ModeToggle />
-                <UserButton afterSignOutUrl="/"/>
+                <UserButton afterSignOutUrl="/" />
             </div>
         </div>
     )

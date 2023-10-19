@@ -8,6 +8,8 @@ import { MemoryManager } from "@/lib/memory";
 import { ratelimit } from "@/lib/rate-limit";
 import prismadb from "@/lib/prismadb";
 
+export const runtime = 'edge';
+
 export async function POST(
   request: Request,
   { params }: { params: { chatId: string } }
